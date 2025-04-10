@@ -1,6 +1,11 @@
 package dbops
 
-import "testing"
+import (
+	"fmt"
+	"strconv"
+	"testing"
+	"time"
+)
 
 var (
 	tempvid string
@@ -86,4 +91,33 @@ func TestVideoWorkFlow(t *testing.T) {
 	t.Run("GetVideo", testGetVideoInfo)
 	t.Run("DeleteVideo", testDeleteVideoInfo)
 	t.Run("RegetVideo", testRegetVideoInfo)
+}
+
+func testAddComments(t *testing.T) {
+	vid := "12345"
+	aid := 1
+	content := "nice, i like"
+	err := AddNewComments(vid, aid, content)
+	if err != nil {
+		t.Errorf("error of AddNewComments: %v\n", err)
+	}
+}
+func testListComments(t *testing.T) {
+	vid := "12345"
+	from := 1743436800
+	to, _ := strconv.Atoi(strconv.FormatInt(time.Now().UnixNano()/1000000000, 10))
+	res, err := ListComments(vid, from, to)
+	if err != nil {
+		t.Errorf("error of ListComments: %v\n", err)
+	}
+	for i, ele := range res {
+		fmt.Printf("comment: %d, %v \n", i, ele)
+	}
+}
+
+func TestCommentWorkFlow(t *testing.T) {
+	clearTables()
+	t.Run("AddUser", testAddUser)
+	t.Run("AddComments", testAddComments)
+	t.Run("ListComments", testListComments)
 }
