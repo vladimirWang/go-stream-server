@@ -2,6 +2,10 @@ package dbops
 
 import "testing"
 
+var (
+	tempvid string
+)
+
 func clearTables() {
 	dbConn.Exec("truncate users")
 	dbConn.Exec("truncate video_info")
@@ -46,4 +50,40 @@ func TestMain(m *testing.M) {
 	clearTables()
 	m.Run()
 	clearTables()
+}
+
+func testAddVideoInfo(t *testing.T) {
+	vi, err := AddNewVideo(1, "video 1")
+
+	if err != nil {
+		t.Errorf("error of AddNewVideo: %v\n", err)
+	}
+	tempvid = vi.Id
+}
+func testGetVideoInfo(t *testing.T) {
+	_, err := GetVideoInfo(tempvid)
+	if err != nil {
+		t.Errorf("error of GetVideoInfo: %v\n", err)
+	}
+}
+func testDeleteVideoInfo(t *testing.T) {
+	err := DeleteVideoInfo(tempvid)
+	if err != nil {
+		t.Errorf("error of DeleteVideo: %v\n", err)
+	}
+}
+func testRegetVideoInfo(t *testing.T) {
+	vi, err := GetVideoInfo(tempvid)
+	if err != nil || vi != nil {
+		t.Errorf("error of RegetVideo: %v\n", err)
+	}
+}
+
+func TestVideoWorkFlow(t *testing.T) {
+	clearTables()
+	t.Run("PrepareUser", testAddUser)
+	t.Run("AddVideo", testAddVideoInfo)
+	t.Run("GetVideo", testGetVideoInfo)
+	t.Run("DeleteVideo", testDeleteVideoInfo)
+	t.Run("RegetVideo", testRegetVideoInfo)
 }
