@@ -3,7 +3,7 @@ package session
 import (
 	"go_stream_server/api/dbops"
 	"go_stream_server/api/defs"
-	"go_stream_server/utils"
+	"go_stream_server/api/utils"
 	"log"
 	"sync"
 	"time"

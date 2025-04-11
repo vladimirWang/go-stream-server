@@ -3,7 +3,7 @@ package dbops
 import (
 	"database/sql"
 	"go_stream_server/api/defs"
-	"go_stream_server/utils"
+	"go_stream_server/api/utils"
 	"log"
 	"time"
 
