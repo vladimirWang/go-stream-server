@@ -5,6 +5,13 @@ type UserCredentials struct {
 	Pwd      string `json:"pwd"`
 }
 
+// response
+type SignedUp struct {
+	Success   bool   `json:"success"`
+	SessionId string `json:"session_id"`
+}
+
+// data model
 type VideoInfo struct {
 	Id           string
 	AuthorId     int
